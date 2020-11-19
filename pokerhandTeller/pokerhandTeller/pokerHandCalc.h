@@ -16,5 +16,7 @@ typedef struct Rank {
 int getPairToInt(char pair);
 int getSuitToInt(char suit);
 string getHandToString(int rank);
+string getPairToString(int pair);
+string getSuitToString(int suit);
 Rank calcRank(int table[4][13], int* sum_pairs, int* sum_suits);
 Rank checkPokerHand(vector<string> a);

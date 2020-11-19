@@ -25,6 +25,49 @@ string getHandToString(int rank) {
 	}
 }
 
+string getSuitToString(int pair) {
+	switch (pair) {
+		case 0:
+			return "♣";
+		case 1:
+			return "♡";
+		case 2:
+			return "◇";
+		case 3:
+			return "♠";
+	}
+}
+string getPairToString(int pair) {
+	switch (pair) {
+		case 14:
+			return "A";
+		case 2:
+			return "2";
+		case 3:
+			return "3";
+		case 4:
+			return "4";
+		case 5:
+			return "5";
+		case 6:
+			return "6";
+		case 7:
+			return "7";
+		case 8:
+			return "8";
+		case 9:
+			return "9";
+		case 10:
+			return "10";
+		case 11:
+			return "J";
+		case 12:
+			return "Q";
+		case 13:
+			return "K";
+	}
+}
+
 int getPairToInt(char pair) {
 	switch (pair) {
 		case 'A':
@@ -143,9 +186,6 @@ Rank calcRank(int table[4][13], int *sum_pairs, int *sum_suits) {
 	if (rank.rank == 5) {
 		for (int i = 0; i < 4; i++) {
 			if (sum_suits[i] >= 5) {
-				rank.high_suit = i;
-				rank.rank = 6;
-				
 				count = 0;
 				for (int j = 0; j < sizeof(sum_pairs_temp) / sizeof(int); j++) {
 					if (table[i][j] != 0) {
@@ -163,7 +203,7 @@ Rank calcRank(int table[4][13], int *sum_pairs, int *sum_suits) {
 					}
 				}
 
-				if (rank.rank == 10 || rank.rank == 9)
+				if (rank.rank != 5)
 					return rank;
 			}
 		}
@@ -173,11 +213,16 @@ Rank calcRank(int table[4][13], int *sum_pairs, int *sum_suits) {
 	bool one_pair = false;
 	bool three_of_a_kind = false;
 	int three_high_pair = 0;
+	int three_suit = 0;
+
 	bool two_pair = false;
 	int two_high_pair = 0;
+	int two_suit = 0;
+
 	int high_card_high_pair = 0;
-	
-	for (int i = 0; i < 14; i++)
+	int high_suit = 0;
+
+	for (int i = 0; i < 13; i++)
 	{
 		if (sum_pairs[i] == 4) {
 			rank.rank = 8;
@@ -188,7 +233,11 @@ Rank calcRank(int table[4][13], int *sum_pairs, int *sum_suits) {
 		else if (sum_pairs[i] == 3) {
 			three_of_a_kind = true;
 			three_high_pair = i + 2;
-			// 추가
+			for (int j = 3; j >= 0; j--)
+				if (table[j][i] != 0) {
+					three_suit = j;
+					break;
+				}
 		}
 		else if (sum_pairs[i] == 2) {
 			if (one_pair)
@@ -196,41 +245,64 @@ Rank calcRank(int table[4][13], int *sum_pairs, int *sum_suits) {
 			else
 				one_pair = true;
 			two_high_pair = i + 2;
-			// 추가
+
+			for (int j = 3; j >= 0; j--)
+				if (table[j][i] != 0) {
+					two_suit = j;
+					break;
+				}
 		}
 		else if (sum_pairs[i] == 1) {
 			high_card_high_pair = i + 2;
-			// 추가
+			for (int j = 3; j >= 0; j--)
+				if (table[j][i] != 0) {
+					high_suit = j;
+					break;
+				}
 		}
 	}
 	if (one_pair && three_of_a_kind) {
 		rank.rank = 7;
 		rank.high_pair = three_high_pair;
-		rank.high_suit = 2; //temp
+		rank.high_suit = three_suit;
 		return rank;
 	}
-	if (rank.rank == 6 || rank.rank == 5)
+
+	for (int i = 0; i < 4; i++) {
+		if (sum_suits[i] >= 5) {
+			rank.high_suit = i;
+			for(int j = 12; j >= 0; j--)
+				if (table[i][j] != 0) {
+					rank.high_pair = j + 2;
+					break;
+				}
+			rank.rank = 6;
+			return rank;
+		}
+	}
+	if (rank.rank == 5)
 		return rank;
+
 	if (three_of_a_kind) {
 		rank.rank = 4;
 		rank.high_pair = three_high_pair;
-		rank.high_suit = 2; //temp
+		rank.high_suit = three_suit;
 		return rank;
 	}
 	if (two_pair) {
 		rank.rank = 3;
 		rank.high_pair = two_high_pair;
-		rank.high_suit = 1; //temp
+		rank.high_suit = two_suit;
 		return rank;
 	}
 	if (one_pair) {
 		rank.rank = 2;
 		rank.high_pair = two_high_pair;
-		rank.high_suit = 1; //temp
+		rank.high_suit = two_suit;
 		return rank;
 	}
 
 	rank.high_pair = high_card_high_pair;
-	rank.high_suit = 1; //temp
+	rank.high_suit = high_suit;
 	return rank;
 }

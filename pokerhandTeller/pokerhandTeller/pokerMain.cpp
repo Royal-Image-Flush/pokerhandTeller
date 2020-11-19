@@ -13,15 +13,15 @@ int main() {
 
 		cout << endl;
 		for (vector<string>::iterator iter = temp.begin(); iter != temp.end(); iter++)
-			cout << (*iter) << ", ";
+			cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
 		cout << endl;
 		cout << "==================================" << endl;
 
 		Rank a = checkPokerHand(temp);
 
 		cout << getHandToString(a.rank) << endl;
-		cout << "Number: " << a.high_pair << endl;
-		cout << "Suit  : " << a.high_suit << endl;
+		cout << "Number: " << getPairToString(a.high_pair) << endl;
+		cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
 		
 		cin >> x;
 	}
