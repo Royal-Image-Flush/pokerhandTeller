@@ -1,0 +1,2 @@
+C:\Users\gsi19\source\repos\pokerhandTeller\x64\Debug\pokerhandTeller.exe
+C:\Users\gsi19\source\repos\pokerhandTeller\x64\Debug\pokerhandTeller.pdb
