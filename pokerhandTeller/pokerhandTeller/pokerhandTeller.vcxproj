@@ -146,12 +146,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="pokerMain.cpp" />
-    <ClCompile Include="shapeDetect.cpp" />
+    <ClCompile Include="cardDetect.cpp" />
     <ClCompile Include="videocapture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pokerMain.h" />
-    <ClInclude Include="shapeDetect.h" />
+    <ClInclude Include="cardDetect.h" />
     <ClInclude Include="videocapture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
