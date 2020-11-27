@@ -18,7 +18,14 @@
     <ClCompile Include="pokerMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="pokerHandCalc.cpp">
+=======
+    <ClCompile Include="videocapture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cardDetect.cpp">
+>>>>>>> feature-detectCardType
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +33,14 @@
     <ClInclude Include="pokerMain.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="pokerHandCalc.h">
+=======
+    <ClInclude Include="videocapture.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cardDetect.h">
+>>>>>>> feature-detectCardType
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
