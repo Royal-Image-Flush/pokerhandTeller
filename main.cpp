@@ -102,7 +102,6 @@ void find_cards(Mat* img) {
 	}
 }
 
-
 int main() {
 	Mat img;
 
