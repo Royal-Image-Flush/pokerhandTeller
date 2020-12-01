@@ -1,66 +1,55 @@
 #include "pokerMain.h"
+#include "findCard.h"
 #include "cardDetect.h"
-#include "videocapture.h"
 #include "pokerHandCalc.h"
+#include "videocapture.h"
 
-const int CARD_NUM = 6;
 
 int main() {
 
-	vector<Mat> img_src;
+	/* 이미지에서 카드 인식 */
+	Mat img;
+	int width = img.cols;
+	int height = img.rows;
 
-	for (int i = 1; i <= CARD_NUM; i++) {
-		img_src.push_back(imread("./card_image/img" + to_string(i) + ".png"));
-
-		if (img_src.empty()) {
-			printf("empty");
-			return -1;
-		}
+	img = imread("./card_image/img1.png", IMREAD_COLOR);
+	if (img.empty()) {
+		cout << "이미지를 찾을 수 없음" << endl;
+		return -1;
 	}
 
-	for (int i = 0; i < CARD_NUM; i++) {
-		Card card(img_src[i]);
+	/* 카드에서 숫자와 모양 인식 */
+	Mat* img_cards;
+	vector<string> card_info;
+
+	img_cards = find_cards(&img);
+
+	for (int i = 0; i < sizeof(img_cards) / sizeof(img_cards[0]); i++) {
+		Card card(img_cards[i]);
+
 		card.preprocess();
-		card.match_number();
-		card.match_suit();
+		card_info.push_back(card.match_number() + card.match_suit());
+
+		cout << card_info[i] << endl;
 	}
 
-	//videoncapture_basic();
+	/* 어떤 패인지 계산 */
+
+	if (card_info.size()) {
+		system("CLS");
+
+		cout << endl;
+		for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
+			cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
+		cout << endl;
+		cout << "==================================" << endl;
+
+		Rank a = checkPokerHand(card_info);
+
+		cout << getHandToString(a.rank) << endl;
+		cout << "Number: " << getPairToString(a.high_pair) << endl;
+		cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
+	}
 
 	return 0;
 }
-
-//vector<string> randomCards() {
-//	vector<string> temp;
-//	
-//	string first = "23456789TJQKA";
-//	string second = "SDHC";
-//	string new_string;
-//	bool sameValue;
-//	int a, b = 0;
-//	srand((unsigned int)time(0));
-//	a = rand() % 13;
-//	b = rand() % 4;
-//	new_string.push_back(first.at(a));
-//	new_string.push_back(second.at(b));
-//
-//	temp.push_back(new_string);
-//
-//	while (temp.size() < 7) {
-//		sameValue = false;
-//		a = rand() % 13;
-//		b = rand() % 4;
-//		new_string[0] = first.at(a);
-//		new_string[1] = second.at(b);
-//
-//		for (vector<string>::iterator iter = temp.begin(); iter != temp.end(); iter++) {
-//			if (new_string == (*iter)) {
-//				sameValue = true;
-//				break;
-//			}
-//		}
-//		if (!sameValue)
-//			temp.push_back(new_string);
-//	}
-//	return temp;
-//}

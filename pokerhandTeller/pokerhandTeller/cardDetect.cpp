@@ -3,8 +3,8 @@
 const int CORNER_WIDTH = 35;
 const int CORNER_HEIGHT = 85;
 
-const string SUIT[] = { "heart", "diamond", "clover", "spade" };
-const string NUMBER[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+const string SUIT[] = { "H", "D", "C", "S" };
+const string NUMBER[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K" };
 
 
 Card::Card(Mat img) {
@@ -93,7 +93,7 @@ int composite(Mat train, Mat query)
 }
 
 
-void Card::match_number()
+string Card::match_number()
 {
 	int min = INT_MAX;
 
@@ -114,11 +114,11 @@ void Card::match_number()
 		}
 	}
 
-	cout << this->num << endl;
+	return this->num;
 }
 
 
-void Card::match_suit()
+string Card::match_suit()
 {
 	int min = INT_MAX;
 
@@ -139,5 +139,5 @@ void Card::match_suit()
 		}
 	}
 
-	cout << this->suit << endl;
+	return this->suit;
 }

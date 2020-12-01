@@ -25,8 +25,8 @@ private:
 public:
 	Card(Mat img);
 	void preprocess();
-	void match_suit();
-	void match_number();
+	string match_suit();
+	string match_number();
 };
 
 bool cmp_contour(const vector<Point> cnt1, const vector<Point> cnt2);
