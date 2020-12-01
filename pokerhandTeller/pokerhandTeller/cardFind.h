@@ -30,4 +30,4 @@ using namespace std;
 
 bool compare_approx_x(Point2f a, Point2f b);
 bool compare_approx_y(Point2f a, Point2f b);
-Mat* find_cards(Mat* img);
+vector<Mat> find_cards(Mat& img);
