@@ -42,10 +42,14 @@ Mat* find_cards(Mat* img) {
 		int max_index[2];
 		float length, max_width, max = 0;
 		Point2f temp(0, 0);
-		sort(approx.begin(), approx.end(), compare_approx_y);
 		sort(approx.begin(), approx.end(), compare_approx_x);
-		temp = approx[2]; approx[2] = approx[3]; approx[3] = temp;
-
+		if (approx[0].y > approx[1].y) {
+			temp = approx[0]; approx[0] = approx[1]; approx[1] = temp;
+		}
+		if (approx[2].y < approx[3].y) {
+			temp = approx[2]; approx[2] = approx[3]; approx[3] = temp;
+		}
+		cout << approx << endl;
 		/*find longest edge*/
 		for (int i = 0; i < 4; i++) {
 			length = sqrt(pow(approx[i % 4].x - approx[(i + 1) % 4].x, 2) + pow(approx[i % 4].y - approx[(i + 1) % 4].y, 2));
