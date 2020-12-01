@@ -1,2 +1,6 @@
 ﻿  pokerMain.cpp
-  pokerhandTeller.vcxproj -> C:\Users\LG\Desktop\pokerhandTeller\pokerhandTeller\Debug\pokerhandTeller.exe
+  cardDetect.cpp
+  videocapture.cpp
+  코드를 생성하고 있습니다...
+  LINK : C:\Users\kio10\Desktop\rif\pokerhandTeller\Debug\pokerhandTeller.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+opencv_world450d.lib(opencv_world450d.dll) : fatal error LNK1112: 'x64' 모듈 컴퓨터 종류가 'x86' 대상 컴퓨터 종류와 충돌합니다.
