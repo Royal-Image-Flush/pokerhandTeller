@@ -12,7 +12,7 @@ int main() {
 	int width = img.cols;
 	int height = img.rows;
 
-	img = imread("./card_image/img1.png", IMREAD_COLOR);
+	img = imread("./card_image/cards.jpg", IMREAD_COLOR);
 	if (img.empty()) {
 		cout << "이미지를 찾을 수 없음" << endl;
 		return -1;

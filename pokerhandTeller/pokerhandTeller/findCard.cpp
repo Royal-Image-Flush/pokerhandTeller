@@ -12,6 +12,7 @@ Mat* find_cards(Mat* img) {
 	vector<Point2f> approx;
 
 	Mat img_gray;
+	Mat img_wb;
 	Mat detected_edges;
 	Mat cards[7];
 
@@ -21,9 +22,13 @@ Mat* find_cards(Mat* img) {
 
 	/*gray scale image*/
 	cvtColor(*img, img_gray, COLOR_BGR2GRAY);
+	blur(img_gray, img_gray, Size(3, 3));
+	/*binary image*/
+	threshold(img_gray, img_wb, 125, 255, THRESH_BINARY_INV | THRESH_OTSU);
+	imshow("img_wb", img_wb);
+	waitKey(0);
 	/*detect edges*/
-	blur(img_gray, detected_edges, Size(3, 3));
-	Canny(detected_edges, detected_edges, lowThreshold, highThreshold, 3);
+	Canny(img_wb, detected_edges, lowThreshold, highThreshold, 3);
 	/*transform edges into coordinates*/
 	findContours(detected_edges, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point());
 
