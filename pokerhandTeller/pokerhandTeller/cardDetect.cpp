@@ -113,7 +113,7 @@ string Card::match_number()
 			this->num = NUMBER[i];
 		}
 	}
-
+	cout << this->num << endl;
 	return this->num;
 }
 
@@ -138,6 +138,6 @@ string Card::match_suit()
 			this->suit = SUIT[i];
 		}
 	}
-
+	cout << this->suit << endl;
 	return this->suit;
 }

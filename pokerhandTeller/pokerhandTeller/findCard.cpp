@@ -18,6 +18,7 @@ Mat* find_cards(Mat* img) {
 
 	int lowThreshold = 50;
 	int highThreshold = 150;
+	int card_count = 0;
 
 
 	/*gray scale image*/
@@ -25,8 +26,6 @@ Mat* find_cards(Mat* img) {
 	blur(img_gray, img_gray, Size(3, 3));
 	/*binary image*/
 	threshold(img_gray, img_wb, 125, 255, THRESH_BINARY_INV | THRESH_OTSU);
-	imshow("img_wb", img_wb);
-	waitKey(0);
 	/*detect edges*/
 	Canny(img_wb, detected_edges, lowThreshold, highThreshold, 3);
 	/*transform edges into coordinates*/
@@ -35,6 +34,9 @@ Mat* find_cards(Mat* img) {
 	for (int i = 0; i < contours.size(); i++) {
 		/*find vertex using contours*/
 		approxPolyDP(Mat(contours[i]), approx, arcLength(Mat(contours[i]), true) * 0.02, true);
+		if (contourArea(Mat(approx)) < 100) {
+			continue;
+		}
 
 		///*sort order of vertex*/
 		int max_index[2];
@@ -69,16 +71,17 @@ Mat* find_cards(Mat* img) {
 			Point2f(max_width, max), Point2f(max_width , 0)
 		};
 		Mat affine = getPerspectiveTransform(approx, vertex);
-		warpPerspective(*img, cards[i], affine, Size(max_width, max));
-		resize(cards[i], cards[i], Size(62, 88), 62 / max_width, 88 / max);
+		warpPerspective(*img, cards[card_count], affine, Size(max_width, max));
+		resize(cards[card_count], cards[card_count], Size(62, 88), 62 / max_width, 88 / max);
+		card_count++;
 	}
 
-	///* 테스트 출력*/
-	//for (int i = 0; i < contours.size(); i++) {
-	//	cout << i << " image" << endl;
-	//	imshow("Result", cards[i]);
-	//	waitKey(0);
-	//}
-
+	/* 테스트 출력*/
+	for (int i = 0; i < card_count; i++) {
+		cout << i << " image" << endl;
+		imshow("Result", cards[i]);
+		waitKey(0);
+	}
+	cout << card_count << endl;
 	return cards;
 }
