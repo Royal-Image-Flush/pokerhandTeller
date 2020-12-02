@@ -40,16 +40,6 @@ int main() {
 		int width = frame.cols;
 		int height = frame.rows;
 
-		//if (img.empty()) {
-		//	cout << "이미지를 찾을 수 없음" << endl;
-		//	return -1;
-		//}
-
-		frame = removeShadow(frame);
-		//imshow("Image", frame);
-		//waitKey();
-
-
 		/* find cards in images */
 
 		vector<Mat> img_cards;
@@ -74,21 +64,20 @@ int main() {
 
 			/* calculate ranks of hands */
 
-			if (card_info.size() == 7) {
-				system("CLS");
+			system("CLS");
 
-				cout << endl;
-				for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
-					cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
-				cout << endl;
-				cout << "==================================" << endl;
+			cout << endl;
+			for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
+				cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
+			cout << endl;
+			cout << "==================================" << endl;
 
-				Rank a = checkPokerHand(card_info);
+			Rank a = checkPokerHand(card_info);
 
-				cout << getHandToString(a.rank) << endl;
-				cout << "Number: " << getPairToString(a.high_pair) << endl;
-				cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
-			}
+			cout << getHandToString(a.rank) << endl;
+			cout << "Number: " << getPairToString(a.high_pair) << endl;
+			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
+			
 		}
 
 		// show live and wait for a key with timeout long enough to show images

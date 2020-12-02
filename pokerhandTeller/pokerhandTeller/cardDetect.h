@@ -1,5 +1,6 @@
 #pragma once
 
+#include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
@@ -31,3 +32,4 @@ public:
 
 bool cmp_contour(const vector<Point> cnt1, const vector<Point> cnt2);
 int composite(Mat train, Mat query);
+void sharpen(const cv::Mat& image, cv::Mat& result);
