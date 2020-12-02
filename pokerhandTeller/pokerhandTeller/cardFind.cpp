@@ -26,8 +26,8 @@ vector<Mat> find_cards(Mat& img) {
 	blur(img_gray, img_gray, Size(3, 3));
 	/*binary image*/
 	threshold(img_gray, img_wb, 0, 255, THRESH_BINARY_INV | THRESH_OTSU);
-	imshow("src_img", img_wb);
-	waitKey(0);
+	//imshow("src_img", img_wb);
+	//waitKey(0);
 
 	/*detect edges*/
 	Canny(img_wb, detected_edges, lowThreshold, highThreshold, 3);

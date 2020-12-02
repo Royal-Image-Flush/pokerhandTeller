@@ -8,7 +8,7 @@ const string NUMBER[] = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J",
 
 
 Card::Card(Mat img) {
-	img_scr = img;
+	img_src = img;
 	width = img.cols;
 	height = img.rows;
 }
@@ -18,22 +18,22 @@ bool cmp_contour(const vector<Point> cnt1, const vector<Point> cnt2)
 	return contourArea(cnt1) > contourArea(cnt2);
 }
 
-void Card::preprocess()
+bool Card::preprocess()
 {
 	Mat img_tf;
 
 	/* resize card */
-	resize(this->img_scr, img_tf, Size(200, 300));
+	resize(this->img_src, img_tf, Size(200, 300));
 	cvtColor(img_tf, img_tf, COLOR_BGR2GRAY);
-	threshold(img_tf, img_tf, 220, 255, THRESH_BINARY_INV);
+	threshold(img_tf, img_tf, 0, 255, THRESH_BINARY_INV | THRESH_OTSU);
 
 	/* calculate corner  */
 	img_tf = img_tf(Range(0, CORNER_HEIGHT), Range(0, CORNER_WIDTH));
 	
 	/* print corner of card  */
-	namedWindow("image");
-	imshow("image", img_tf);
-	waitKey(0);
+	//namedWindow("image");
+	//imshow("image", img_tf);
+	//waitKey(0);
 
 	vector<vector<Point> > contours;
 	Rect rect;
@@ -41,7 +41,12 @@ void Card::preprocess()
 	/* detect number */
 	Mat img_num = img_tf(Range(0, int(CORNER_HEIGHT / 2) + 10), Range(0, CORNER_WIDTH));
 
+	
 	findContours(img_num, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
+		
+	if (contours.size() == 0)
+		return false;
+
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_num = img_num(rect);
@@ -53,16 +58,20 @@ void Card::preprocess()
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_suit = img_suit(rect);
+	
+	return true;
 }
 
 
 int composite(Mat train, Mat query)
 {
-	cout << query.cols << "   " << query.rows << endl;
-	cout << train.cols << "   " << train.rows << endl;
+	int cnt = 0;
+
+	if (query.cols == 0 || query.rows == 0)
+		throw runtime_error("error");
+
 	resize(query, query, Size(train.cols, train.rows), train.cols / query.cols, train.rows / query.rows);
 
-	int cnt = 0;
 	for (int i = 0; i < train.rows; i++) {
 		for (int j = 0; j < train.cols; j++) {
 			if (train.at<uchar>(i, j) != query.at<uchar>(i, j))
@@ -72,7 +81,7 @@ int composite(Mat train, Mat query)
 				train.at<uchar>(i, j) = (uchar)0;
 		}
 	}
-	
+
 	return cnt;
 }
 

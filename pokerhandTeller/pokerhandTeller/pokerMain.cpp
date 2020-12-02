@@ -7,16 +7,16 @@
 
 
 int main() {
+
 	Mat frame;
-	//--- INITIALIZE VIDEOCAPTURE
 	VideoCapture cap;
-	// open the default camera using default API
-	// cap.open(0);
-	// OR advance usage: select any API backend
+
 	int deviceID = 0;             // 0 = open default camera
 	int apiID = cv::CAP_ANY;      // 0 = autodetect default API
+	
 	// open selected camera using selected API
 	cap.open(deviceID, apiID);
+	
 	// check if we succeeded
 	if (!cap.isOpened()) {
 		cerr << "ERROR! Unable to open camera\n";
@@ -26,6 +26,8 @@ int main() {
 	//--- GRAB AND WRITE LOOP
 	cout << "Start grabbing" << endl
 		<< "Press any key to terminate" << endl;
+
+	int curCardSize = 0;
 	for (;;)
 	{
 		// wait for a new frame from camera and store it into 'frame'
@@ -45,26 +47,27 @@ int main() {
 		vector<Mat> img_cards;
 
 		img_cards = find_cards(frame);
-
+		
 
 		/* detect numbers and suits on cards */
 
-		if (img_cards.size() > 0) {
+		if (curCardSize != img_cards.size() && curCardSize < 8) {
 			vector<string> card_info;
 
 			for (int i = 0; i < img_cards.size(); i++) {
 				Card card(img_cards[i]);
 
-				card.preprocess();
-				card_info.push_back(card.match_number() + card.match_suit());
+				if (card.preprocess())
+					card_info.push_back(card.match_number() + card.match_suit());
 
 				cout << "card" << to_string(i + 1) + " : " + card_info[i] << endl;
 			}
 
+			curCardSize = img_cards.size();
 
 			/* calculate ranks of hands */
 
-			system("CLS");
+			//system("CLS");
 
 			cout << endl;
 			for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
@@ -77,7 +80,6 @@ int main() {
 			cout << getHandToString(a.rank) << endl;
 			cout << "Number: " << getPairToString(a.high_pair) << endl;
 			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
-			
 		}
 
 		// show live and wait for a key with timeout long enough to show images

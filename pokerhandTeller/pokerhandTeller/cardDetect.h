@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <stdexcept>
 
 using namespace cv;
 using namespace std;
@@ -14,7 +15,7 @@ using namespace std;
 
 class Card {
 private:
-	Mat img_scr;
+	Mat img_src;
 	int width;
 	int height;
 
@@ -25,9 +26,10 @@ private:
 
 public:
 	Card(Mat img);
-	void preprocess();
+	bool preprocess();
 	string match_suit();
 	string match_number();
+	Mat getImgSrc() { return img_src; };
 };
 
 bool cmp_contour(const vector<Point> cnt1, const vector<Point> cnt2);

@@ -35,6 +35,8 @@ string getSuitToString(int pair) {
 			return "¡Ş";
 		case 3:
 			return "¢¼";
+		default:
+			return "";
 	}
 }
 string getPairToString(int pair) {
@@ -65,6 +67,8 @@ string getPairToString(int pair) {
 			return "Q";
 		case 13:
 			return "K";
+		default:
+			return "";
 	}
 }
 
@@ -96,6 +100,8 @@ int getPairToInt(char pair) {
 			return 10;
 		case 'K':
 			return 11;
+		default:
+			return NULL;
 	}
 }
 
@@ -109,6 +115,8 @@ int getSuitToInt(char suit) {
 			return 1;
 		case 'C':
 			return 0;
+		default:
+			return NULL;
 	}
 }
 
