@@ -25,15 +25,29 @@ void Card::preprocess()
 	/* resize card */
 	resize(this->img_scr, img_tf, Size(200, 300));
 	cvtColor(img_tf, img_tf, COLOR_BGR2GRAY);
-	threshold(img_tf, img_tf, 220, 255, THRESH_BINARY_INV);
-
-	/* calculate corner  */
 	img_tf = img_tf(Range(0, CORNER_HEIGHT), Range(0, CORNER_WIDTH));
 	
-	/* print corner of card  */
-	namedWindow("image");
-	imshow("image", img_tf);
-	waitKey(0);
+	/* binary*/
+	int min = 256, max = 0;
+	for (int i = 0; i < CORNER_HEIGHT; i++) {
+		for (int j = 0; j < CORNER_WIDTH; j++) {
+			if (img_tf.at<uchar>(i, j) > max)
+				max = img_tf.at<uchar>(i, j);
+			if (img_tf.at<uchar>(i, j) < min)
+				min = img_tf.at<uchar>(i, j);
+		}
+	}
+	cout << min << " " << max << endl;
+	waitKey();
+	for (int i = 0; i < CORNER_HEIGHT; i++) {
+		for (int j = 0; j < CORNER_WIDTH; j++) {
+			img_tf.at<uchar>(i, j) = 
+				(img_tf.at<uchar>(i,j)- min) * 255 / (max - min);
+		}
+	}
+	imshow("", img_tf);
+	waitKey();
+	threshold(img_tf, img_tf, 220, 255, THRESH_BINARY_INV);
 
 	vector<vector<Point> > contours;
 	Rect rect;
@@ -58,8 +72,6 @@ void Card::preprocess()
 
 int composite(Mat train, Mat query)
 {
-	cout << query.cols << "   " << query.rows << endl;
-	cout << train.cols << "   " << train.rows << endl;
 	resize(query, query, Size(train.cols, train.rows), train.cols / query.cols, train.rows / query.rows);
 
 	int cnt = 0;

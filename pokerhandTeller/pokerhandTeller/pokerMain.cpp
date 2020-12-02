@@ -28,15 +28,15 @@ int main() {
 		<< "Press any key to terminate" << endl;
 	for (;;)
 	{
-		// wait for a new frame from camera and store it into 'frame'
-		cap.read(frame);
-		// check if we succeeded
-		if (frame.empty()) {
-			cerr << "ERROR! blank frame grabbed\n";
-			break;
-		}
+		//// wait for a new frame from camera and store it into 'frame'
+		//cap.read(frame);
+		//// check if we succeeded
+		//if (frame.empty()) {
+		//	cerr << "ERROR! blank frame grabbed\n";
+		//	break;
+		//}
 
-		//Mat img = imread("./card_image/img.jpg", IMREAD_COLOR);
+		Mat img = imread("./card_image/cardss.jpg", IMREAD_COLOR);
 		int width = frame.cols;
 		int height = frame.rows;
 
@@ -44,7 +44,7 @@ int main() {
 
 		vector<Mat> img_cards;
 
-		img_cards = find_cards(frame);
+		img_cards = find_cards(img);
 
 
 		/* detect numbers and suits on cards */
@@ -77,13 +77,13 @@ int main() {
 			cout << getHandToString(a.rank) << endl;
 			cout << "Number: " << getPairToString(a.high_pair) << endl;
 			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
-			
+			return 0;
 		}
 
 		// show live and wait for a key with timeout long enough to show images
-		imshow("Live", frame);
-		if (waitKey(5) >= 0)
-			break;
+		//imshow("Live", frame);
+		//if (waitKey(5) >= 0)
+		//	break;
 	}
 
 	return 0;
