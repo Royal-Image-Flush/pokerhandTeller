@@ -22,6 +22,8 @@ string getHandToString(int rank) {
 		return "Straight Flush";
 	case 10:
 		return "Royal Flush";
+	default:
+		return "";
 	}
 }
 

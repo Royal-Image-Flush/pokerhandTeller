@@ -43,10 +43,13 @@ bool Card::preprocess()
 
 	
 	findContours(img_num, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
-		
-	if (contours.size() == 0)
-		return false;
 
+	
+	if (!contours.size()) {
+		cout << contours.size() << endl;
+		return false;
+	}
+	
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_num = img_num(rect);
@@ -55,10 +58,15 @@ bool Card::preprocess()
 	Mat img_suit = img_tf(Range(int(CORNER_HEIGHT / 2), CORNER_HEIGHT), Range(0, CORNER_WIDTH));
 
 	findContours(img_suit, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
+	if (!contours.size()) {
+		cout << contours.size() << endl;
+		return false;
+	}
+	
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_suit = img_suit(rect);
-	
+
 	return true;
 }
 
@@ -66,9 +74,6 @@ bool Card::preprocess()
 int composite(Mat train, Mat query)
 {
 	int cnt = 0;
-
-	if (query.cols == 0 || query.rows == 0)
-		throw runtime_error("error");
 
 	resize(query, query, Size(train.cols, train.rows), train.cols / query.cols, train.rows / query.rows);
 

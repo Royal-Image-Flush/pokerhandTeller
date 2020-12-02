@@ -51,16 +51,17 @@ int main() {
 
 		/* detect numbers and suits on cards */
 
-		if (curCardSize != img_cards.size() && curCardSize < 8) {
+		if (img_cards.size() != 0 && curCardSize != img_cards.size() && img_cards.size() < 8) {
 			vector<string> card_info;
 
 			for (int i = 0; i < img_cards.size(); i++) {
 				Card card(img_cards[i]);
-
-				if (card.preprocess())
+				
+				if (card.preprocess()) {
 					card_info.push_back(card.match_number() + card.match_suit());
-
-				cout << "card" << to_string(i + 1) + " : " + card_info[i] << endl;
+				}
+				else
+					cout << "error" << endl;
 			}
 
 			curCardSize = img_cards.size();
@@ -68,7 +69,6 @@ int main() {
 			/* calculate ranks of hands */
 
 			//system("CLS");
-
 			cout << endl;
 			for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
 				cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
@@ -81,6 +81,8 @@ int main() {
 			cout << "Number: " << getPairToString(a.high_pair) << endl;
 			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
 		}
+		else if (img_cards.size() == 0)
+			curCardSize = 0;
 
 		// show live and wait for a key with timeout long enough to show images
 		imshow("Live", frame);
