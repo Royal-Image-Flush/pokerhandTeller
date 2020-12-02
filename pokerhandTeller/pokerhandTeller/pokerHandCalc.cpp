@@ -30,13 +30,13 @@ string getHandToString(int rank) {
 string getSuitToString(int pair) {
 	switch (pair) {
 		case 0:
-			return "¢À";
+			return "Clover";
 		case 1:
-			return "¢½";
+			return "Heart";
 		case 2:
-			return "¡Ş";
+			return "Diamond";
 		case 3:
-			return "¢¼";
+			return "Spade";
 		default:
 			return "";
 	}

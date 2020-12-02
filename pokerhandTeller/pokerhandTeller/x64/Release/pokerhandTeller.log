@@ -1,9 +1,7 @@
-﻿  cardDetect.cpp
-  pokerMain.cpp
-C:\Users\kio10\Desktop\rif\pokerhandTeller\pokerhandTeller\pokerMain.cpp(67,34): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  pokerHandCalc.cpp
   코드를 생성하고 있습니다.
-  12 of 489 functions ( 2.5%) were compiled, the rest were copied from previous compilation.
+  2 of 504 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    28 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   pokerhandTeller.vcxproj -> C:\Users\kio10\Desktop\rif\pokerhandTeller\x64\Release\pokerhandTeller.exe

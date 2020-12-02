@@ -27,6 +27,19 @@ int main() {
 	cout << "Start grabbing" << endl
 		<< "Press any key to terminate" << endl;
 
+
+	string myText;
+	/// Text Location
+	cv::Point myPoint;
+	myPoint.x = 10;
+	myPoint.y = 40;
+
+	/// Font Face
+	int myFontFace = 2;
+
+	/// Font Scale
+	double myFontScale = 1.2;
+
 	int curCardSize = 0;
 	for (;;)
 	{
@@ -80,9 +93,18 @@ int main() {
 			cout << getHandToString(a.rank) << endl;
 			cout << "Number: " << getPairToString(a.high_pair) << endl;
 			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
+
+			
+
+			myText = "Rank: " + getHandToString(a.rank) + "(" + getPairToString(a.high_pair) + ", " + getSuitToString(a.high_suit) + ")";
+			
 		}
 		else if (img_cards.size() == 0)
 			curCardSize = 0;
+
+		
+
+		cv::putText(frame, myText, myPoint, myFontFace, myFontScale, Scalar::all(0));
 
 		// show live and wait for a key with timeout long enough to show images
 		imshow("Live", frame);
