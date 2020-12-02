@@ -2,6 +2,7 @@
 
 Mat removeShadow(Mat src_Image) {
 //	Mat src_Image = imread("./card_image/6.jpg", IMREAD_GRAYSCALE);
+	cvtColor(src_Image, src_Image, COLOR_BGR2GRAY);
 	Mat dst_Image;
 
 	Mat srcImage_f32;

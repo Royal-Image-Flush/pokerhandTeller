@@ -1,4 +1,4 @@
-#include "findCard.h"
+#include "cardFind.h"
 
 bool compare_approx_x(Point2f a, Point2f b) {
 	return a.x < b.x;

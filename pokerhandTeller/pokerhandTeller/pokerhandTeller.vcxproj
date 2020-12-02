@@ -151,12 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="findCard.cpp" />
-    <ClCompile Include="imageBinarization.cpp" />
-=======
     <ClCompile Include="cardFind.cpp" />
->>>>>>> develop
+    <ClCompile Include="imageBinarization.cpp" />
     <ClCompile Include="pokerHandCalc.cpp" />
     <ClCompile Include="pokerMain.cpp" />
     <ClCompile Include="cardDetect.cpp" />

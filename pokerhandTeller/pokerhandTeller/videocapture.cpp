@@ -52,6 +52,7 @@ int videoncapture_camera()
     Mat frame;
     cout << "Opening camera..." << endl;
     VideoCapture capture(0); // open the first camera
+
     if (!capture.isOpened())
     {
         cerr << "ERROR: Can't initialize camera capture" << endl;
