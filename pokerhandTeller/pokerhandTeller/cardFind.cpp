@@ -27,67 +27,71 @@ vector<Mat> find_cards(Mat& img) {
 	/*binary image*/
 	threshold(img_gray, img_wb, 125, 255, THRESH_BINARY_INV | THRESH_OTSU);
 
-	imshow("src_img", img_wb);
-	waitKey(0);
+	//imshow("src_img", img_wb);
+	//waitKey(0);
 
 	/*detect edges*/
 	Canny(img_wb, detected_edges, lowThreshold, highThreshold, 3);
 	/*transform edges into coordinates*/
 	findContours(detected_edges, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point());
+	
+	if (contours.size() > 0){
+		for (int i = 0; i < contours.size(); i++) {
+			Mat card;
 
-	for (int i = 0; i < contours.size(); i++) {
-		Mat card;
-
-		/*find vertex using contours*/
-		approxPolyDP(Mat(contours[i]), approx, arcLength(Mat(contours[i]), true) * 0.02, true);
-		if (contourArea(Mat(approx)) < 100) {
-			continue;
-		}
-
-		///*sort order of vertex*/
-		int max_index[2];
-		float length, max_width, max = 0;
-		Point2f temp(0, 0);
-
-		sort(approx.begin(), approx.end(), compare_approx_x);
-		if (approx[0].y > approx[1].y) {
-			temp = approx[0]; approx[0] = approx[1]; approx[1] = temp;
-		}
-		if (approx[2].y < approx[3].y) {
-			temp = approx[2]; approx[2] = approx[3]; approx[3] = temp;
-		}
-		cout << approx << endl;
-		/*find longest edge*/
-		for (int i = 0; i < 4; i++) {
-			length = sqrt(pow(approx[i % 4].x - approx[(i + 1) % 4].x, 2) + pow(approx[i % 4].y - approx[(i + 1) % 4].y, 2));
-			if (length > max) {
-				max = length;
-				max_index[0] = i % 4;
-				max_index[1] = (i + 1) % 4;
+			/*find vertex using contours*/
+			approxPolyDP(Mat(contours[i]), approx, arcLength(Mat(contours[i]), true) * 0.02, true);
+			if (contourArea(Mat(approx)) < 100 || approx.size() != 4) {
+				continue;
 			}
+
+			///*sort order of vertex*/
+			int max_index[2];
+			float length, max_width, max = 0;
+			Point2f temp(0, 0);
+
+			sort(approx.begin(), approx.end(), compare_approx_x);
+			if (approx[0].y > approx[1].y) {
+				temp = approx[0]; approx[0] = approx[1]; approx[1] = temp;
+			}
+			if (approx[2].y < approx[3].y) {
+				temp = approx[2]; approx[2] = approx[3]; approx[3] = temp;
+			}
+			//cout << approx << endl;
+
+			/*find longest edge*/
+			for (int i = 0; i < 4; i++) {
+				length = sqrt(pow(approx[i % 4].x - approx[(i + 1) % 4].x, 2) + pow(approx[i % 4].y - approx[(i + 1) % 4].y, 2));
+				if (length > max) {
+					max = length;
+					max_index[0] = i % 4;
+					max_index[1] = (i + 1) % 4;
+				}
+			}
+
+			/* 세로변이 가장 긴 형태일 경우*/
+			if ((max_index[0] == 0 && max_index[1] == 1) ||
+				(max_index[0] == 2 && max_index[1] == 3)) {
+				max_width = max / 88 * 62;
+			}
+			/* 가로변이 가장 긴 형태일 경우*/
+			else {
+				max_width = max / 62 * 88;
+			}
+
+			vector<Point2f> vertex{
+				Point2f(0, 0), Point2f(0, max),
+				Point2f(max_width, max), Point2f(max_width , 0)
+			};
+
+			Mat affine = getPerspectiveTransform(approx, vertex);
+			warpPerspective(img_wb, card, affine, Size(max_width, max));
+
+			resize(card, card, Size(248, 352), 62 / max_width, 88 / max);
+			cards.push_back(card);
+
+			card_count++;
 		}
-
-		/* 세로변이 가장 긴 형태일 경우*/
-		if ((max_index[0] == 0 && max_index[1] == 1) ||
-			(max_index[0] == 2 && max_index[1] == 3)) {
-			max_width = max / 88 * 62;
-		}
-		/* 가로변이 가장 긴 형태일 경우*/
-		else {
-			max_width = max / 62 * 88;
-		}
-
-		vector<Point2f> vertex{
-			Point2f(0, 0), Point2f(0, max),
-			Point2f(max_width, max), Point2f(max_width , 0)
-		};
-		Mat affine = getPerspectiveTransform(approx, vertex);
-		warpPerspective(img_wb, card, affine, Size(max_width, max));
-
-		resize(card, card, Size(124, 176), 62 / max_width, 88 / max);
-		cards.push_back(card);
-
-		card_count++;
 	}
 
 	/* 테스트 출력*/

@@ -29,9 +29,9 @@ void Card::preprocess()
 	img_tf = img_tf(Range(0, CORNER_HEIGHT), Range(0, CORNER_WIDTH));
 	
 	/* print corner of card  */
-	namedWindow("image");
-	imshow("image", img_tf);
-	waitKey(0);
+	//namedWindow("image");
+	//imshow("image", img_tf);
+	//waitKey(0);
 
 	vector<vector<Point> > contours;
 	Rect rect;
