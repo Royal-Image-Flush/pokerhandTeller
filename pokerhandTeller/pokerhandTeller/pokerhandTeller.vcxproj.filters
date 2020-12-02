@@ -6,6 +6,7 @@
     <ClCompile Include="cardDetect.cpp" />
     <ClCompile Include="videocapture.cpp" />
     <ClCompile Include="findCard.cpp" />
+    <ClCompile Include="imageBinarization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pokerHandCalc.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="cardDetect.h" />
     <ClInclude Include="videocapture.h" />
     <ClInclude Include="findCard.h" />
+    <ClInclude Include="imageBinarization.h" />
   </ItemGroup>
 </Project>

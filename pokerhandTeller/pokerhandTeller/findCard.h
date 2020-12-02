@@ -19,6 +19,7 @@ parameter3는 폐곡선인지 계곡선인지 여부를 넣는다.
 
 #include<opencv2/core.hpp>
 #include<opencv2/imgproc.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include<opencv2/highgui.hpp>
 #include<iostream>
 #include<cstdio>

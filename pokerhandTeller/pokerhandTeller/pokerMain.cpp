@@ -3,6 +3,7 @@
 #include "cardDetect.h"
 #include "pokerHandCalc.h"
 #include "videocapture.h"
+#include "imageBinarization.h"
 
 
 int main() {
@@ -12,11 +13,15 @@ int main() {
 	int width = img.cols;
 	int height = img.rows;
 
-	img = imread("./card_image/cards.jpg", IMREAD_COLOR);
+	img = imread("./card_image/cards.jpg", IMREAD_GRAYSCALE);
 	if (img.empty()) {
 		cout << "이미지를 찾을 수 없음" << endl;
 		return -1;
 	}
+
+	img = removeShadow(img);
+	imshow("Image", img);
+	waitKey();
 
 	/* 카드에서 숫자와 모양 인식 */
 	Mat* img_cards;
