@@ -5,15 +5,23 @@
     <ClCompile Include="pokerMain.cpp" />
     <ClCompile Include="cardDetect.cpp" />
     <ClCompile Include="videocapture.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="findCard.cpp" />
     <ClCompile Include="imageBinarization.cpp" />
+=======
+    <ClCompile Include="cardFind.cpp" />
+>>>>>>> develop
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pokerHandCalc.h" />
     <ClInclude Include="pokerMain.h" />
     <ClInclude Include="cardDetect.h" />
     <ClInclude Include="videocapture.h" />
+<<<<<<< HEAD
     <ClInclude Include="findCard.h" />
     <ClInclude Include="imageBinarization.h" />
+=======
+    <ClInclude Include="cardFind.h" />
+>>>>>>> develop
   </ItemGroup>
 </Project>

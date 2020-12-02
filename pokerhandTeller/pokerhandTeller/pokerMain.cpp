@@ -1,5 +1,5 @@
 #include "pokerMain.h"
-#include "findCard.h"
+#include "cardFind.h"
 #include "cardDetect.h"
 #include "pokerHandCalc.h"
 #include "videocapture.h"
@@ -8,12 +8,10 @@
 
 int main() {
 
-	/* 이미지에서 카드 인식 */
-	Mat img;
+	Mat img = imread("./card_image/img.jpg", IMREAD_GRAYSCALE);
 	int width = img.cols;
 	int height = img.rows;
 
-	img = imread("./card_image/cards.jpg", IMREAD_GRAYSCALE);
 	if (img.empty()) {
 		cout << "이미지를 찾을 수 없음" << endl;
 		return -1;
@@ -24,23 +22,33 @@ int main() {
 	waitKey();
 
 	/* 카드에서 숫자와 모양 인식 */
-	Mat* img_cards;
+	vector<Mat> img_cards;
 	vector<string> card_info;
 
-	img_cards = find_cards(&img);
+	/* find cards in images */
+	
+	vector<Mat> img_cards;
 
-	for (int i = 0; i < sizeof(img_cards) / sizeof(img_cards[0]); i++) {
+	img_cards = find_cards(img);
+
+
+	/* detect numbers and suits on cards */
+
+	vector<string> card_info;
+
+	for (int i = 0; i < img_cards.size(); i++) {
 		Card card(img_cards[i]);
 
 		card.preprocess();
 		card_info.push_back(card.match_number() + card.match_suit());
 
-		cout << card_info[i] << endl;
+		cout << "card" << to_string(i + 1) + " : " + card_info[i] << endl;
 	}
 
-	/* 어떤 패인지 계산 */
 
-	if (card_info.size()) {
+	/* calculate ranks of hands */
+
+	if (card_info.size() == 7) {
 		system("CLS");
 
 		cout << endl;

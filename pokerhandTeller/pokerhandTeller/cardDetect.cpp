@@ -21,51 +21,36 @@ bool cmp_contour(const vector<Point> cnt1, const vector<Point> cnt2)
 void Card::preprocess()
 {
 	Mat img_tf;
+
+	/* resize card */
 	resize(this->img_scr, img_tf, Size(200, 300));
-	cvtColor(img_tf, img_tf, COLOR_BGR2GRAY);
-	threshold(img_tf, img_tf, 125, 255, THRESH_BINARY_INV | THRESH_OTSU);
 	
-	// corner
+	/* calculate corner  */
 	img_tf = img_tf(Range(0, CORNER_HEIGHT), Range(0, CORNER_WIDTH));
+	
+	/* print corner of card  */
 	namedWindow("image");
 	imshow("image", img_tf);
 	waitKey(0);
 
-
 	vector<vector<Point> > contours;
 	Rect rect;
 
-	// num
+	/* detect number */
 	Mat img_num = img_tf(Range(0, int(CORNER_HEIGHT / 2) + 10), Range(0, CORNER_WIDTH));
-
-	//namedWindow("img");
-	//imshow("img", img_num);
-	//waitKey(0);
 
 	findContours(img_num, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_num = img_num(rect);
 
-	//namedWindow("img");
-	//imshow("img", this->img_num);
-	//waitKey(0);
-
-	// suit
+	/* detect suit */
 	Mat img_suit = img_tf(Range(int(CORNER_HEIGHT / 2), CORNER_HEIGHT), Range(0, CORNER_WIDTH));
-
-	//namedWindow("img");
-	//imshow("img", img_suit);
-	//waitKey(0);
 
 	findContours(img_suit, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
 	this->img_suit = img_suit(rect);
-
-	//namedWindow("img");
-	//imshow("img", this->img_suit);
-	//waitKey(0);
 }
 
 
@@ -83,11 +68,6 @@ int composite(Mat train, Mat query)
 				train.at<uchar>(i, j) = (uchar)0;
 		}
 	}
-
-	//namedWindow("matching");
-	//imshow("matching", train);
-	//resizeWindow("matching", 300, 200);
-	//waitKey(0);
 	
 	return cnt;
 }
@@ -113,7 +93,7 @@ string Card::match_number()
 			this->num = NUMBER[i];
 		}
 	}
-
+	
 	return this->num;
 }
 
