@@ -2,11 +2,14 @@
 #include "cardFind.h"
 #include "cardDetect.h"
 #include "pokerHandCalc.h"
-#include "videocapture.h"
+#include "cardDrawBoundary.h"
 #include "imageBinarization.h"
 
 
 int main() {
+
+	vector<string> card_info;
+	vector<vector<Point>> ccontours;
 
 	Mat frame;
 	VideoCapture cap;
@@ -59,13 +62,13 @@ int main() {
 
 		vector<Mat> img_cards;
 
-		img_cards = find_cards(frame);
+		img_cards = find_cards(frame, ccontours);
 		
 
 		/* detect numbers and suits on cards */
 
 		if (img_cards.size() != 0 && curCardSize != img_cards.size() && img_cards.size() < 8) {
-			vector<string> card_info;
+			card_info.erase(card_info.begin(), card_info.end());
 
 			for (int i = 0; i < img_cards.size(); i++) {
 				Card card(img_cards[i]);
@@ -102,9 +105,11 @@ int main() {
 		else if (img_cards.size() == 0)
 			curCardSize = 0;
 
-		
 
-		cv::putText(frame, myText, myPoint, myFontFace, myFontScale, Scalar::all(0));
+		drawCard(frame, ccontours, card_info);	
+		putText(frame, myText, myPoint, myFontFace, myFontScale, Scalar::all(255));
+
+		ccontours.erase(ccontours.begin(), ccontours.end());
 
 		// show live and wait for a key with timeout long enough to show images
 		imshow("Live", frame);

@@ -7,7 +7,7 @@ bool compare_approx_y(Point2f a, Point2f b) {
 	return a.y < b.y;
 }
 
-vector<Mat> find_cards(Mat& img) {
+vector<Mat> find_cards(Mat& img, vector<vector<Point>>& ccontours) {
 	vector<vector<Point> > contours;
 	vector<Point2f> approx;
 	vector<Mat> cards;
@@ -43,6 +43,8 @@ vector<Mat> find_cards(Mat& img) {
 			if (contourArea(Mat(approx)) < 100 || approx.size() != 4) {
 				continue;
 			}
+
+			ccontours.push_back(contours[i]);
 
 			///*sort order of vertex*/
 			int max_index[2];

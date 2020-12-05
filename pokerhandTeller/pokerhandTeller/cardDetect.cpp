@@ -41,9 +41,7 @@ bool Card::preprocess()
 	/* detect number */
 	Mat img_num = img_tf(Range(0, int(CORNER_HEIGHT / 2) + 10), Range(0, CORNER_WIDTH));
 
-	
 	findContours(img_num, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
-
 	
 	if (!contours.size()) {
 		cout << contours.size() << endl;
