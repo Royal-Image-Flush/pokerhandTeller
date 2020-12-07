@@ -24,13 +24,13 @@ vector<Mat> find_cards(Mat& img, vector<vector<Point>>& ccontours) {
 	/*gray scale image*/
 	cvtColor(img, img_gray, COLOR_BGR2GRAY);
 	blur(img_gray, img_gray, Size(3, 3));
+
 	/*binary image*/
 	threshold(img_gray, img_wb, 0, 255, THRESH_BINARY_INV | THRESH_OTSU);
-	//imshow("src_img", img_wb);
-	//waitKey(0);
 
 	/*detect edges*/
 	Canny(img_wb, detected_edges, lowThreshold, highThreshold, 3);
+
 	/*transform edges into coordinates*/
 	findContours(detected_edges, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point());
 	
@@ -94,7 +94,7 @@ vector<Mat> find_cards(Mat& img, vector<vector<Point>>& ccontours) {
 		}
 	}
 
-	/* 테스트 출력*/
+	/* print cards */
 	//for (int i = 0; i < card_count; i++) {
 	//	cout << i << " image" << endl;
 	//	imshow("Result", cards[i]);

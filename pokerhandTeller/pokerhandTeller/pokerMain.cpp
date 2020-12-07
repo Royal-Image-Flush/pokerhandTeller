@@ -53,6 +53,7 @@ int main() {
 			cerr << "ERROR! blank frame grabbed\n";
 			break;
 		}
+		//resize(frame, frame, Size(960, 720), 0, 0, INTER_LINEAR);
 
 		//Mat img = imread("./card_image/img.jpg", IMREAD_COLOR);
 		int width = frame.cols;
@@ -85,19 +86,17 @@ int main() {
 			/* calculate ranks of hands */
 
 			//system("CLS");
-			cout << endl;
+			/*cout << endl;*/
 			for (vector<string>::iterator iter = card_info.begin(); iter != card_info.end(); iter++)
 				cout << getPairToString(getPairToInt((*iter).at(0)) + 2) << getSuitToString(getSuitToInt((*iter).at(1))) << ", ";
-			cout << endl;
-			cout << "==================================" << endl;
+			//cout << endl;
+			//cout << "==================================" << endl;
 
 			Rank a = checkPokerHand(card_info);
 
-			cout << getHandToString(a.rank) << endl;
-			cout << "Number: " << getPairToString(a.high_pair) << endl;
-			cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
-
-			
+			//cout << getHandToString(a.rank) << endl;
+			//cout << "Number: " << getPairToString(a.high_pair) << endl;
+			//cout << "Suit  : " << getSuitToString(a.high_suit) << endl;
 
 			myText = "Rank: " + getHandToString(a.rank) + "(" + getPairToString(a.high_pair) + ", " + getSuitToString(a.high_suit) + ")";
 			
