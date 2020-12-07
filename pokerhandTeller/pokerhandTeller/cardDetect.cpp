@@ -31,8 +31,7 @@ bool Card::preprocess()
 	img_tf = img_tf(Range(0, CORNER_HEIGHT), Range(0, CORNER_WIDTH));
 	
 	/* print corner of card  */
-	//namedWindow("image");
-	//imshow("image", img_tf);
+	//imshow("Corner", img_tf);
 	//waitKey(0);
 
 	vector<vector<Point> > contours;
@@ -41,9 +40,7 @@ bool Card::preprocess()
 	/* detect number */
 	Mat img_num = img_tf(Range(0, int(CORNER_HEIGHT / 2) + 10), Range(0, CORNER_WIDTH));
 
-	
 	findContours(img_num, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
-
 	
 	if (!contours.size()) {
 		cout << contours.size() << endl;
@@ -52,6 +49,7 @@ bool Card::preprocess()
 	
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
+	//resize(img_num(rect), this->img_num, Size(70, 125));
 	this->img_num = img_num(rect);
 
 	/* detect suit */
@@ -65,7 +63,7 @@ bool Card::preprocess()
 	
 	sort(contours.begin(), contours.end(), cmp_contour);
 	rect = boundingRect(contours[0]);
-	this->img_suit = img_suit(rect);
+	resize(img_suit(rect), this->img_suit, Size(70, 100));
 
 	return true;
 }

@@ -1,7 +1,7 @@
-﻿  pokerHandCalc.cpp
+﻿  cardDetect.cpp
   코드를 생성하고 있습니다.
-  2 of 504 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  3 of 545 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    9 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
-  pokerhandTeller.vcxproj -> C:\Users\kio10\Desktop\rif\pokerhandTeller\x64\Release\pokerhandTeller.exe
+  pokerhandTeller.vcxproj -> C:\Users\kio10\Desktop\Team 2-8, RIF\pokerhandTeller\x64\Release\pokerhandTeller.exe
